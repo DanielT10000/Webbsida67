@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An interactive history of NVIDIA GPUs from the company's founding in 1993 through the Fermi era in 2010." />
+  <title>NVIDIA GPU History — 1993 to 2010</title>
+  <style>
+    :root {
+      --nvidia: #76b900;
+      --nvidia-2: #a6e22e;
+      --ink: #f4f7f2;
+      --muted: #aab4a4;
+      --dim: #727b6e;
+      --bg: #080b09;
+      --panel: #0e1310;
+      --panel-2: #121914;
+      --line: #253126;
+      --line-strong: #3f5a40;
+      --warning: #ffd166;
+      --danger: #ff6b6b;
+      --cyan: #65dbe8;
+      --violet: #b69cff;
+      --radius: 22px;
+      --shadow: 0 18px 50px rgba(0,0,0,.34);
+      --max: 1260px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(118,185,0,.12), transparent 29rem),
+        radial-gradient(circle at 90% 28%, rgba(101,219,232,.07), transparent 33rem),
+        linear-gradient(180deg, #090c0a 0%, #070a08 100%);
+      line-height: 1.65;
+    }
+
+    a { color: var(--nvidia-2); }
+    button, input { font: inherit; }
+    ::selection { background: var(--nvidia); color: #071000; }
+
+    .skip-link {
+      position: fixed;
+      top: .75rem;
+      left: .75rem;
+      z-index: 9999;
+      transform: translateY(-160%);
+      background: var(--ink);
+      color: #000;
+      padding: .7rem 1rem;
+      border-radius: 999px;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(8,11,9,.78);
+      border-bottom: 1px solid rgba(118,185,0,.13);
+    }
+    .topbar-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: .85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      font-weight: 900;
+      letter-spacing: .06em;
+      white-space: nowrap;
+    }
+    .brand-mark {
+      width: 1.75rem;
+      aspect-ratio: 1;
+      border-radius: 7px;
+      background:
+        linear-gradient(135deg, transparent 24%, #071000 25% 32%, transparent 33%),
+        repeating-radial-gradient(circle at 68% 52%, var(--nvidia) 0 2px, transparent 3px 7px),
+        var(--nvidia);
+      box-shadow: 0 0 24px rgba(118,185,0,.35);
+    }
+    nav {
+      margin-left: auto;
+      display: flex;
+      gap: .4rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: .48rem .7rem;
+      border-radius: 999px;
+      white-space: nowrap;
+      font-size: .9rem;
+    }
+    nav a:hover, nav a:focus-visible { color: var(--ink); background: #161d18; }
+
+    .scroll-progress {
+      height: 2px;
+      background: linear-gradient(90deg, var(--nvidia) var(--scroll, 0%), transparent 0);
+    }
+
+    main { overflow: clip; }
+    .container { width: min(calc(100% - 2rem), var(--max)); margin: 0 auto; }
+
+    .hero {
+      position: relative;
+      min-height: 76vh;
+      display: grid;
+      align-items: center;
+      padding: 6.5rem 0 4.5rem;
+      isolation: isolate;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      right: -8rem;
+      top: 8rem;
+      width: 32rem;
+      aspect-ratio: 1;
+      border: 1px solid rgba(118,185,0,.15);
+      border-radius: 32%;
+      rotate: 28deg;
+      background:
+        linear-gradient(90deg, transparent 49.2%, rgba(118,185,0,.09) 49.2% 50.8%, transparent 50.8%),
+        linear-gradient(transparent 49.2%, rgba(118,185,0,.09) 49.2% 50.8%, transparent 50.8%);
+      box-shadow: inset 0 0 120px rgba(118,185,0,.05), 0 0 140px rgba(118,185,0,.04);
+      z-index: -1;
+    }
+    .eyebrow {
+      display: inline-flex;
+      gap: .55rem;
+      align-items: center;
+      color: var(--nvidia-2);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: .78rem;
+    }
+    .eyebrow::before { content:""; width: 2rem; height: 2px; background: var(--nvidia); }
+    h1 {
+      margin: .8rem 0 1.2rem;
+      max-width: 12ch;
+      font-size: clamp(3.4rem, 9vw, 7.9rem);
+      line-height: .88;
+      letter-spacing: -.065em;
+    }
+    h1 span { color: var(--nvidia); }
+    .hero-copy {
+      max-width: 760px;
+      color: #c8d0c4;
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; }
+    .btn {
+      border: 1px solid var(--line-strong);
+      background: #111712;
+      color: var(--ink);
+      text-decoration: none;
+      padding: .78rem 1rem;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn.primary { background: var(--nvidia); border-color: var(--nvidia); color: #091000; }
+    .btn:hover { translate: 0 -1px; }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: .8rem;
+      margin-top: 3rem;
+      max-width: 980px;
+    }
+    .stat {
+      padding: 1rem;
+      background: rgba(14,19,16,.74);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .stat strong { display:block; font-size: 1.45rem; line-height: 1.1; color: var(--nvidia-2); }
+    .stat small { color: var(--muted); }
+
+    section { padding: 5.3rem 0; }
+    .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2rem; align-items:end; margin-bottom: 2rem; }
+    .section-kicker { color: var(--nvidia); font-weight: 900; letter-spacing: .13em; text-transform: uppercase; font-size: .76rem; }
+    h2 { margin: .45rem 0 0; font-size: clamp(2.15rem, 5vw, 4.2rem); line-height: 1; letter-spacing: -.045em; }
+    .section-intro { color: var(--muted); max-width: 740px; margin: 0; }
+
+    .era-grid { display:grid; grid-template-columns: repeat(5, 1fr); gap:.8rem; }
+    .era-card {
+      background: linear-gradient(180deg, rgba(18,25,20,.96), rgba(12,17,14,.96));
+      border:1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.1rem;
+      min-height: 225px;
+      position: relative;
+      overflow: hidden;
+    }
+    .era-card::after {
+      content:"";
+      position:absolute;
+      width:7rem; aspect-ratio:1; border-radius:50%;
+      right:-2rem; bottom:-2rem;
+      background: radial-gradient(circle, rgba(118,185,0,.16), transparent 65%);
+    }
+    .era-index { color: var(--dim); font: 800 .78rem/1 ui-monospace, monospace; }
+    .era-card h3 { margin: .8rem 0 .35rem; font-size:1.08rem; }
+    .era-card p { margin:0; color:var(--muted); font-size:.9rem; }
+    .era-range { display:inline-block; margin-top:1rem; color:var(--nvidia-2); font-size:.78rem; font-weight:800; }
+
+    .controls {
+      position: sticky;
+      top: 61px;
+      z-index: 40;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 2fr auto;
+      gap: .8rem;
+      padding: .9rem;
+      background: rgba(11,15,12,.92);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      margin-bottom: 2.3rem;
+    }
+    .search-wrap { position:relative; }
+    .search-wrap span { position:absolute; left:.85rem; top:50%; translate:0 -50%; color:var(--dim); }
+    #search {
+      width:100%; border:1px solid var(--line); background:#0b100d; color:var(--ink);
+      padding:.72rem .9rem .72rem 2.3rem; border-radius: 11px; outline:none;
+    }
+    #search:focus { border-color:var(--nvidia); box-shadow:0 0 0 3px rgba(118,185,0,.12); }
+    .chips { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; }
+    .chip {
+      border:1px solid var(--line); background:#111713; color:var(--muted);
+      padding:.53rem .72rem; border-radius:999px; cursor:pointer; font-size:.86rem;
+    }
+    .chip.active, .chip:hover { color:#071000; background:var(--nvidia); border-color:var(--nvidia); }
+    .result-count { align-self:center; color:var(--muted); font-size:.86rem; white-space:nowrap; }
+
+    .timeline { position:relative; display:grid; gap:1.2rem; padding: 1rem 0; }
+    .timeline::before {
+      content:""; position:absolute; left:50%; top:0; bottom:0; width:2px; translate:-50% 0;
+      background: linear-gradient(var(--nvidia), rgba(118,185,0,.1));
+    }
+    .timeline-card {
+      width: calc(50% - 2.1rem);
+      position:relative;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(17,24,19,.97), rgba(11,16,13,.98));
+      padding: 1.25rem;
+      box-shadow: 0 16px 44px rgba(0,0,0,.18);
+      transition: border-color .2s ease, transform .2s ease, opacity .25s ease;
+    }
+    .timeline-card:nth-child(even) { margin-left:auto; }
+    .timeline-card:hover { border-color:var(--line-strong); transform:translateY(-2px); }
+    .timeline-card::before {
+      content:""; position:absolute; top:1.45rem; width:.82rem; aspect-ratio:1; border-radius:50%;
+      background:var(--nvidia); box-shadow:0 0 0 5px #0b100d, 0 0 0 7px rgba(118,185,0,.22), 0 0 26px rgba(118,185,0,.5);
+    }
+    .timeline-card:nth-child(odd)::before { right:-2.57rem; }
+    .timeline-card:nth-child(even)::before { left:-2.57rem; }
+    .timeline-card.hidden { display:none; }
+
+    .card-top { display:flex; justify-content:space-between; gap:1rem; align-items:flex-start; }
+    .year { color:var(--nvidia-2); font:900 1.1rem/1 ui-monospace, monospace; letter-spacing:.03em; }
+    .tag { color:var(--muted); border:1px solid var(--line); padding:.2rem .5rem; border-radius:999px; font-size:.72rem; }
+    .timeline-card h3 { margin:.65rem 0 .12rem; font-size:1.55rem; line-height:1.1; letter-spacing:-.02em; }
+    .codename { color:var(--dim); font: 700 .8rem/1.5 ui-monospace, monospace; }
+    .significance { color:#c7d1c2; margin:.85rem 0 1rem; }
+    .spec-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:.45rem; }
+    .mini-spec { background:#0a0f0c; border:1px solid #1f2a21; border-radius:11px; padding:.55rem .6rem; min-width:0; }
+    .mini-spec small { display:block; color:var(--dim); font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; }
+    .mini-spec b { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.86rem; }
+    .detail-list { margin:1rem 0 0; padding-left:1.15rem; color:var(--muted); font-size:.9rem; }
+    .detail-list li + li { margin-top:.35rem; }
+    .card-actions { display:flex; gap:.55rem; margin-top:1rem; }
+    .tiny-btn {
+      border:1px solid var(--line); background:#111713; color:var(--ink); cursor:pointer;
+      border-radius:10px; padding:.52rem .7rem; font-weight:800; font-size:.78rem;
+    }
+    .tiny-btn:hover { border-color:var(--nvidia); }
+
+    .chart-shell, .table-shell, .glossary-shell, .source-shell {
+      background: linear-gradient(180deg, rgba(16,22,18,.96), rgba(10,14,12,.96));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .chart-shell { padding:1rem; }
+    .chart-toolbar { display:flex; justify-content:space-between; gap:1rem; align-items:center; padding:.25rem .3rem .8rem; }
+    .chart-toolbar p { color:var(--muted); margin:0; font-size:.88rem; }
+    #growthChart { width:100%; min-height:360px; display:block; }
+    .chart-note { color:var(--dim); font-size:.78rem; margin:.4rem .4rem 0; }
+
+    .table-shell { overflow:hidden; }
+    .table-scroll { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; min-width:1100px; font-size:.86rem; }
+    th, td { padding:.8rem .8rem; border-bottom:1px solid #202a22; text-align:left; vertical-align:top; }
+    th { position:sticky; top:0; background:#121913; color:var(--nvidia-2); font-size:.72rem; text-transform:uppercase; letter-spacing:.07em; }
+    tbody tr:hover { background:rgba(118,185,0,.035); }
+    td:first-child { color:var(--nvidia-2); font-family:ui-monospace, monospace; font-weight:900; }
+    .table-caption { padding:1rem; color:var(--muted); font-size:.84rem; border-top:1px solid var(--line); }
+
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.2rem; }
+    .compare-panel { background:#0d120f; border:1px solid var(--line); border-radius:18px; padding:1rem; }
+    .compare-panel h3 { margin:.15rem 0 1rem; }
+    .metric-row { display:grid; grid-template-columns:150px 1fr 80px; gap:.7rem; align-items:center; margin:.55rem 0; }
+    .metric-row span { color:var(--muted); font-size:.84rem; }
+    .bar { height:9px; background:#1a241c; border-radius:999px; overflow:hidden; }
+    .bar > i { display:block; height:100%; background:linear-gradient(90deg,var(--nvidia),var(--nvidia-2)); border-radius:inherit; }
+    .metric-row b { text-align:right; font-size:.82rem; }
+
+    .glossary-shell { padding:1rem; display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; }
+    .term { border:1px solid #202a22; border-radius:15px; padding:.9rem; background:#0b100d; }
+    .term dt { color:var(--nvidia-2); font-weight:900; }
+    .term dd { margin:.35rem 0 0; color:var(--muted); font-size:.86rem; }
+
+    .source-shell { padding:1.2rem; }
+    .sources-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.8rem; }
+    .source-card { border:1px solid #202a22; border-radius:14px; padding:.9rem; background:#0b100d; }
+    .source-card b { display:block; }
+    .source-card p { color:var(--muted); margin:.25rem 0 .55rem; font-size:.84rem; }
+    .source-card a { font-size:.82rem; font-weight:800; }
+    .fineprint { color:var(--dim); font-size:.78rem; margin-top:1rem; }
+
+    .cta {
+      margin:4rem auto 6rem;
+      padding:2rem;
+      border:1px solid rgba(118,185,0,.3);
+      border-radius:26px;
+      background: linear-gradient(135deg, rgba(118,185,0,.12), rgba(10,14,12,.98) 52%);
+      display:grid; grid-template-columns:1fr auto; gap:1rem; align-items:center;
+    }
+    .cta h2 { font-size:clamp(1.9rem,4vw,3.3rem); }
+    .cta p { color:var(--muted); margin:.5rem 0 0; }
+
+    footer { border-top:1px solid var(--line); color:var(--dim); padding:2rem 0 3rem; font-size:.82rem; }
+
+    dialog {
+      width:min(720px, calc(100% - 2rem));
+      border:1px solid var(--line-strong);
+      border-radius:22px;
+      background:#0d120f;
+      color:var(--ink);
+      padding:0;
+      box-shadow:0 30px 100px rgba(0,0,0,.7);
+    }
+    dialog::backdrop { background:rgba(0,0,0,.74); backdrop-filter:blur(6px); }
+    .dialog-head { display:flex; justify-content:space-between; gap:1rem; padding:1.1rem 1.2rem; border-bottom:1px solid var(--line); }
+    .dialog-head h3 { margin:0; font-size:1.45rem; }
+    .dialog-close { border:0; background:#1a231c; color:var(--ink); width:2.2rem; height:2.2rem; border-radius:50%; cursor:pointer; }
+    .dialog-body { padding:1.2rem; }
+    .dialog-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.6rem; margin-bottom:1rem; }
+    .dialog-spec { border:1px solid var(--line); border-radius:12px; padding:.7rem; background:#090d0b; }
+    .dialog-spec small { display:block; color:var(--dim); }
+    .dialog-body ul { color:var(--muted); }
+
+    .no-results { display:none; text-align:center; color:var(--muted); border:1px dashed var(--line); border-radius:18px; padding:2rem; }
+    .no-results.show { display:block; }
+
+    @media (max-width: 980px) {
+      .hero-stats { grid-template-columns:repeat(2,1fr); }
+      .section-head { grid-template-columns:1fr; }
+      .era-grid { grid-template-columns:repeat(2,1fr); }
+      .era-card:last-child { grid-column:span 2; }
+      .controls { grid-template-columns:1fr; position:relative; top:auto; }
+      .timeline::before { left:14px; }
+      .timeline-card, .timeline-card:nth-child(even) { width:calc(100% - 42px); margin-left:42px; }
+      .timeline-card::before, .timeline-card:nth-child(odd)::before, .timeline-card:nth-child(even)::before { left:-2.46rem; right:auto; }
+      .glossary-shell { grid-template-columns:repeat(2,1fr); }
+      .compare-grid { grid-template-columns:1fr; }
+      .sources-grid { grid-template-columns:1fr; }
+      .cta { grid-template-columns:1fr; }
+    }
+
+    @media (max-width: 620px) {
+      nav { display:none; }
+      .topbar-inner { padding:.75rem 1rem; }
+      .hero { padding-top:4.8rem; min-height:auto; }
+      .hero-stats { grid-template-columns:1fr 1fr; }
+      .stat strong { font-size:1.15rem; }
+      section { padding:3.8rem 0; }
+      .era-grid { grid-template-columns:1fr; }
+      .era-card:last-child { grid-column:auto; }
+      .spec-strip { grid-template-columns:1fr 1fr; }
+      .glossary-shell { grid-template-columns:1fr; }
+      .dialog-grid { grid-template-columns:1fr; }
+      .metric-row { grid-template-columns:105px 1fr 60px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" aria-label="NVIDIA GPU History project">
+        <span class="brand-mark" aria-hidden="true"></span>
+        GPU HISTORY
+      </div>
+      <nav aria-label="Main navigation">
+        <a href="#eras">Eras</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#growth">Growth</a>
+        <a href="#specs">Specs</a>
+        <a href="#glossary">Glossary</a>
+        <a href="#sources">Sources</a>
+      </nav>
+    </div>
+    <div class="scroll-progress" aria-hidden="true"></div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow">Part I · Origins to Fermi</div>
+        <h1>NVIDIA GPUs <span>1993–2010</span></h1>
+        <p class="hero-copy">
+          From a three-person startup chasing real-time 3D graphics, through RIVA, the first GeForce,
+          programmable shaders, unified shaders, CUDA, GT200 and finally Fermi. This page follows the
+          technical ideas that turned a graphics accelerator into a massively parallel processor.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#timeline">Explore the timeline</a>
+          <a class="btn" href="#specs">Open the flagship table</a>
+        </div>
+
+        <div class="hero-stats" aria-label="Summary statistics">
+          <div class="stat"><strong>1993 → 2010</strong><small>17 years of rapid GPU evolution</small></div>
+          <div class="stat"><strong>500 nm → 40 nm</strong><small>Representative process-node change</small></div>
+          <div class="stat"><strong>4 MB → 1.5 GB</strong><small>RIVA 128 to GTX 580 reference VRAM</small></div>
+          <div class="stat"><strong>Fixed → Unified</strong><small>Pipeline logic became programmable compute</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="eras">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Architecture map</div>
+            <h2>Five eras changed everything.</h2>
+          </div>
+          <p class="section-intro">
+            NVIDIA's early products were not simply slower versions of modern GPUs. The underlying model changed repeatedly:
+            from fixed-function 3D hardware, to hardware transform and lighting, to programmable shaders, to a unified shader
+            machine that could also be exposed to programmers through CUDA.
+          </p>
+        </div>
+        <div class="era-grid">
+          <article class="era-card"><span class="era-index">01</span><h3>Multimedia experiment</h3><p>NV1 combined 2D, 3D, video, audio and controller I/O, but used quadratic texture mapping instead of the triangle-centric path Direct3D standardized.</p><span class="era-range">1995</span></article>
+          <article class="era-card"><span class="era-index">02</span><h3>RIVA fixed-function 3D</h3><p>RIVA 128, TNT and TNT2 established NVIDIA as a mainstream 3D competitor with integrated 2D/3D acceleration, 32-bit rendering and increasingly fast SDR memory.</p><span class="era-range">1997–1999</span></article>
+          <article class="era-card"><span class="era-index">03</span><h3>GeForce + hardware T&amp;L</h3><p>GeForce 256 moved transform and lighting work away from the CPU. GeForce2 scaled fill rate, while GeForce3 added genuinely programmable vertex and pixel shading.</p><span class="era-range">1999–2002</span></article>
+          <article class="era-card"><span class="era-index">04</span><h3>Shader race</h3><p>GeForce FX pushed DirectX 9 programmability; GeForce 6 and 7 improved efficiency, Shader Model 3.0, HDR and multi-GPU SLI during a fierce ATI–NVIDIA competition.</p><span class="era-range">2003–2006</span></article>
+          <article class="era-card"><span class="era-index">05</span><h3>Unified GPU computing</h3><p>G80 replaced separate vertex/pixel units with unified stream processors. CUDA opened those processors to general computing; GT200 expanded them, and Fermi redesigned the GPU around compute as a first-class workload.</p><span class="era-range">2006–2010</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Interactive timeline</div>
+            <h2>Milestones, not just model numbers.</h2>
+          </div>
+          <p class="section-intro">
+            Search by model, codename or technology. Filters focus the timeline on early fixed-function chips,
+            programmable-shader GPUs, unified-shader architectures, or major company/platform events.
+          </p>
+        </div>
+
+        <div class="controls" aria-label="Timeline filters">
+          <label class="search-wrap">
+            <span aria-hidden="true">⌕</span>
+            <input id="search" type="search" placeholder="Search: G80, CUDA, Fermi, SLI…" aria-label="Search timeline" />
+          </label>
+          <div class="chips" role="group" aria-label="Era filters">
+            <button class="chip active" data-filter="all">All</button>
+            <button class="chip" data-filter="origin">Origins</button>
+            <button class="chip" data-filter="fixed">Fixed-function</button>
+            <button class="chip" data-filter="programmable">Programmable</button>
+            <button class="chip" data-filter="unified">Unified / CUDA</button>
+            <button class="chip" data-filter="milestone">Milestones</button>
+          </div>
+          <div class="result-count" id="resultCount" aria-live="polite"></div>
+        </div>
+
+        <div class="timeline" id="timelineRoot"></div>
+        <div class="no-results" id="noResults">No timeline entries match that search and filter.</div>
+      </div>
+    </section>
+
+    <section id="growth">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Silicon growth</div>
+            <h2>Millions became billions.</h2>
+          </div>
+          <p class="section-intro">
+            This logarithmic chart shows representative transistor counts for major desktop chips. A logarithmic axis is used
+            because the jump from single-digit millions to roughly three billion transistors is too large for a useful linear plot.
+          </p>
+        </div>
+        <div class="chart-shell">
+          <div class="chart-toolbar">
+            <p>Representative flagship / architecture-defining GPUs</p>
+            <span class="tag">log scale</span>
+          </div>
+          <svg id="growthChart" viewBox="0 0 1200 420" role="img" aria-labelledby="chartTitle chartDesc"></svg>
+          <p class="chart-note">Launch-era transistor counts can differ slightly between contemporary announcements and later databases. The chart uses the values documented in this page's data set.</p>
+        </div>
+
+        <div class="compare-grid">
+          <div class="compare-panel">
+            <h3>RIVA 128 → GTX 580</h3>
+            <div class="metric-row"><span>Transistors</span><div class="bar"><i style="width:100%"></i></div><b>≈857×</b></div>
+            <div class="metric-row"><span>VRAM</span><div class="bar"><i style="width:44%"></i></div><b>384×</b></div>
+            <div class="metric-row"><span>Bandwidth</span><div class="bar"><i style="width:30%"></i></div><b>≈120×</b></div>
+            <div class="metric-row"><span>Process pitch</span><div class="bar"><i style="width:18%"></i></div><b>350→40 nm</b></div>
+          </div>
+          <div class="compare-panel">
+            <h3>What changed conceptually?</h3>
+            <div class="metric-row"><span>Geometry</span><div class="bar"><i style="width:36%"></i></div><b>CPU → GPU</b></div>
+            <div class="metric-row"><span>Shaders</span><div class="bar"><i style="width:60%"></i></div><b>Fixed → code</b></div>
+            <div class="metric-row"><span>Pipeline</span><div class="bar"><i style="width:78%"></i></div><b>Split → unified</b></div>
+            <div class="metric-row"><span>Workloads</span><div class="bar"><i style="width:100%"></i></div><b>Graphics → compute</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="specs">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Reference specification table</div>
+            <h2>The flagship ladder.</h2>
+          </div>
+          <p class="section-intro">
+            The table uses representative NVIDIA/reference-board specifications. Board partners frequently shipped different
+            clocks, memory capacities and cooling designs, so treat these as historical reference points rather than a database of every retail SKU.
+          </p>
+        </div>
+        <div class="table-shell">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Year</th><th>GPU</th><th>Codename</th><th>Process</th><th>Transistors</th><th>Core / Shader</th><th>VRAM</th><th>Bus</th><th>Bandwidth</th><th>Core layout</th><th>API / compute</th>
+                </tr>
+              </thead>
+              <tbody id="specTableBody"></tbody>
+            </table>
+          </div>
+          <div class="table-caption">“Core layout” changes meaning over time: early chips use pixel/TMU-style descriptions, while G80 and later use unified stream/CUDA processors.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="glossary">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Glossary</div>
+            <h2>How to read old GPU specs.</h2>
+          </div>
+          <p class="section-intro">A 2001 “pixel pipeline” and a 2010 “CUDA core” are not interchangeable units. The vocabulary tracks the architectural shift from a fixed graphics pipeline to general programmable parallel hardware.</p>
+        </div>
+        <dl class="glossary-shell">
+          <div class="term"><dt>Fixed-function</dt><dd>Hardware stages with mostly predetermined jobs: transform, lighting, rasterization, texturing and blending.</dd></div>
+          <div class="term"><dt>Hardware T&amp;L</dt><dd>Transform and Lighting. GeForce 256 moved major geometry calculations from the host CPU into dedicated GPU hardware.</dd></div>
+          <div class="term"><dt>Pixel / vertex shader</dt><dd>Small programs that control per-pixel and per-vertex effects. GeForce3 brought programmable shader stages into NVIDIA's consumer line.</dd></div>
+          <div class="term"><dt>Unified shader</dt><dd>A common pool of processors that can be scheduled for vertex, pixel, geometry or compute work instead of separate dedicated pools.</dd></div>
+          <div class="term"><dt>CUDA core</dt><dd>NVIDIA's later marketing name for scalar arithmetic lanes inside streaming multiprocessors. Core counts are only meaningfully compared within related architectures.</dd></div>
+          <div class="term"><dt>SM</dt><dd>Streaming Multiprocessor: a cluster that contains arithmetic lanes, schedulers, registers and local/shared resources for groups of GPU threads.</dd></div>
+          <div class="term"><dt>ROPs</dt><dd>Render Output Units. They handle late-stage pixel work such as depth/stencil tests and framebuffer blending/writes.</dd></div>
+          <div class="term"><dt>TMUs</dt><dd>Texture Mapping Units. They sample and filter texture data; their role and ratio to shader resources changed significantly over generations.</dd></div>
+          <div class="term"><dt>Memory bus</dt><dd>The width of the connection between GPU and VRAM. Width alone does not determine bandwidth; memory clock and memory technology matter too.</dd></div>
+          <div class="term"><dt>GDDR</dt><dd>Graphics-oriented DDR memory. NVIDIA moved from SDR/DDR to GDDR3 and then GDDR5 by the Fermi era.</dd></div>
+          <div class="term"><dt>SLI</dt><dd>Scalable Link Interface, NVIDIA's multi-GPU rendering technology of this era, revived commercially with the GeForce 6 generation.</dd></div>
+          <div class="term"><dt>Compute capability</dt><dd>CUDA's hardware feature version. G80 began at 1.0; GT200 reached 1.3 and added features such as double-precision capability.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Research notes</div>
+            <h2>Sources and methodology.</h2>
+          </div>
+          <p class="section-intro">The narrative prioritizes NVIDIA's own historical and architecture documents, supplemented by contemporary technical reviews for board-level specifications and context.</p>
+        </div>
+        <div class="source-shell">
+          <div class="sources-grid" id="sourceGrid"></div>
+          <p class="fineprint">
+            Historical GPU specifications sometimes vary by board partner, revision, region or source methodology. In particular, transistor counts and “pipeline” terminology were reported differently in some launch-era materials. This page favors commonly cited reference specifications and calls out notable ambiguity where useful.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="cta">
+        <div>
+          <div class="section-kicker">End of Part I</div>
+          <h2>2011–today can plug into the same timeline.</h2>
+          <p>Kepler, Maxwell, Pascal, Volta, Turing, Ampere, Ada, Blackwell and the later AI/data-center split can be added as the next data block without changing this page's UI.</p>
+        </div>
+        <a class="btn primary" href="#timeline">Back to 1993</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">Educational historical page. NVIDIA, GeForce, CUDA, Quadro and Tesla are trademarks of NVIDIA Corporation. This is not an official NVIDIA website.</div>
+  </footer>
+
+  <dialog id="detailDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-head"><h3 id="dialogTitle">GPU details</h3><button class="dialog-close" aria-label="Close details">×</button></div>
+    <div class="dialog-body" id="dialogBody"></div>
+  </dialog>
+
+  <script>
+    const historyData = [
+      {
+        year: 1993, date: "April 5, 1993", name: "NVIDIA is founded", codename: "Company milestone", category: "origin milestone", type: "milestone",
+        architecture: "—", process: "—", transistors: null, transistorsM: null, coreClock: "—", memory: "—", bus: "—", bandwidth: "—", layout: "—", api: "—",
+        significance: "Jensen Huang, Chris Malachowsky and Curtis Priem founded NVIDIA with a focus on bringing real-time 3D graphics to mainstream computing.",
+        details: [
+          "The founding date is April 5, 1993.",
+          "The company's early bet was that increasingly rich computer interfaces and games would demand specialized parallel graphics hardware.",
+          "The first product would arrive two years later, but it looked very different from the triangle-based GPUs that eventually defined PC 3D."
+        ]
+      },
+      {
+        year: 1995, date: "1995", name: "NV1", codename: "NV1 / STG-2000", category: "origin fixed", type: "gpu",
+        architecture: "Early multimedia", process: "500 nm", transistors: "≈1M-class", transistorsM: 1, coreClock: "≈12 MHz-class", memory: "2–4 MB", bus: "PCI", bandwidth: "—", layout: "Quadratic texture mapping", api: "Pre-Direct3D / proprietary path",
+        significance: "NVIDIA's first commercial chip was an ambitious all-in-one multimedia processor combining 2D, 3D, video, audio and game-controller support.",
+        details: [
+          "NV1 rendered curved quadratic surfaces rather than the triangles that became standard in Direct3D.",
+          "Diamond's Edge 3D was the best-known retail implementation.",
+          "Some boards exposed Sega Saturn-compatible controller ports and a 32-channel audio subsystem.",
+          "The architecture's mismatch with Microsoft's emerging triangle-centric Direct3D ecosystem limited its long-term success."
+        ]
+      },
+      {
+        year: 1997, date: "August 1997", name: "RIVA 128", codename: "NV3", category: "fixed", type: "gpu",
+        architecture: "RIVA / fixed-function", process: "350 nm", transistors: "≈3.5M", transistorsM: 3.5, coreClock: "100 MHz", memory: "4 MB SGRAM", bus: "128-bit", bandwidth: "1.6 GB/s", layout: "1 TMU / 1 ROP", api: "Direct3D 5-class",
+        significance: "RIVA 128 abandoned NV1's quadratic approach and became NVIDIA's first major mainstream success in conventional triangle-based 3D graphics.",
+        details: [
+          "Combined 2D, 3D and video acceleration on one card, unlike add-on 3D-only solutions such as the original Voodoo Graphics.",
+          "Used 4 MB of 100 MHz SGRAM on a 128-bit path for roughly 1.6 GB/s of bandwidth.",
+          "Shipped in both PCI and early AGP implementations; the later RIVA 128ZX increased memory support to 8 MB.",
+          "The product helped establish NVIDIA as a serious competitor in the fast-growing consumer 3D market."
+        ]
+      },
+      {
+        year: 1998, date: "1998", name: "RIVA TNT", codename: "NV4", category: "fixed", type: "gpu",
+        architecture: "Fahrenheit / fixed-function", process: "350 nm", transistors: "≈7M", transistorsM: 7, coreClock: "90 MHz", memory: "Up to 16 MB SDR", bus: "128-bit", bandwidth: "≈1.76 GB/s", layout: "2 pixel / 2 TMU", api: "DirectX 6-era",
+        significance: "TNT — 'TwiN Texel' — strengthened NVIDIA's 32-bit rendering, multitexturing and all-in-one 2D/3D position.",
+        details: [
+          "Two texture-capable rendering paths improved multitexturing throughput over RIVA 128.",
+          "High-quality 32-bit color rendering became a key selling point in the late-1990s image-quality race.",
+          "The product competed directly with 3dfx's Voodoo2 era, though performance varied strongly by API, resolution and color depth.",
+          "TNT created the architectural base that the faster TNT2 refined in 1999."
+        ]
+      },
+      {
+        year: 1999, date: "March 1999", name: "RIVA TNT2 Ultra", codename: "NV5", category: "fixed", type: "gpu",
+        architecture: "Fahrenheit", process: "250 nm", transistors: "≈15M", transistorsM: 15, coreClock: "150 MHz", memory: "32 MB SDR", bus: "128-bit", bandwidth: "≈2.93 GB/s", layout: "2 pixel / 2 TMU", api: "DirectX 6",
+        significance: "TNT2 pushed the RIVA design to much higher clocks and became one of NVIDIA's last major pre-GeForce chips.",
+        details: [
+          "The 250 nm process let the Ultra reference configuration reach roughly 150 MHz core frequency.",
+          "Typical high-end boards used 32 MB of SDR memory on a 128-bit interface.",
+          "TNT2 competed with products such as 3dfx Voodoo3 during a period when 16-bit versus 32-bit image quality was heavily debated.",
+          "Only months later NVIDIA would replace the RIVA name at the high end with GeForce."
+        ]
+      },
+      {
+        year: 1999, date: "August / October 1999", name: "GeForce 256", codename: "NV10", category: "programmable fixed", type: "gpu",
+        architecture: "GeForce / hardware T&L", process: "220 nm", transistors: "≈23M*", transistorsM: 23, coreClock: "120 MHz", memory: "32 MB SDR or DDR", bus: "128-bit", bandwidth: "2.7–4.8 GB/s", layout: "4 pixel pipelines + T&L", api: "DirectX 7",
+        significance: "NVIDIA marketed GeForce 256 as the world's first GPU, integrating transform, lighting, triangle setup/clipping and rendering on one chip.",
+        details: [
+          "Hardware Transform & Lighting moved key geometry work off the CPU and enabled more complex scenes with less host-processor involvement.",
+          "The launch-era definition of 'GPU' emphasized a single-chip processor able to perform transform, lighting, triangle setup/clipping and rendering at high rates.",
+          "Reference chips ran around 120 MHz; DDR variants greatly improved memory bandwidth over SDR versions.",
+          "*Contemporary launch reporting quoted nearly 23 million transistors; some later databases list a lower count for NV10, illustrating how historical counting conventions can differ."
+        ]
+      },
+      {
+        year: 2000, date: "April 2000", name: "GeForce2 GTS", codename: "NV15", category: "programmable", type: "gpu",
+        architecture: "Celsius", process: "180 nm", transistors: "≈25M", transistorsM: 25, coreClock: "200 MHz", memory: "32 MB DDR", bus: "128-bit", bandwidth: "≈5.3 GB/s", layout: "4 pixel × 2 texture", api: "DirectX 7",
+        significance: "GeForce2 dramatically raised texture fill rate and cemented NVIDIA's fast product cadence at the high end.",
+        details: [
+          "Four rendering pipelines with two texture units each enabled up to 1.6 gigatexels/s in ideal multitexturing cases.",
+          "NVIDIA expanded the family widely: GTS, Pro, Ultra, MX variants and the GeForce2 Go mobile GPU.",
+          "GeForce2 remained a fixed-function DirectX 7-era design in the modern shader sense, but scaled the GeForce 256 formula aggressively.",
+          "This period also saw NVIDIA become the graphics supplier for Microsoft's original Xbox."
+        ]
+      },
+      {
+        year: 2000, date: "2000", name: "3dfx assets + Xbox + mobile", codename: "Ecosystem expansion", category: "milestone", type: "milestone",
+        architecture: "—", process: "—", transistors: null, transistorsM: null, coreClock: "—", memory: "—", bus: "—", bandwidth: "—", layout: "—", api: "—",
+        significance: "NVIDIA broadened beyond desktop add-in cards: Microsoft selected NVIDIA technology for the original Xbox, NVIDIA announced GeForce2 Go, and NVIDIA acquired key assets of 3dfx.",
+        details: [
+          "The 3dfx transaction transferred important graphics intellectual property and talent from a former archrival.",
+          "Xbox work expanded NVIDIA's console experience and placed its graphics technology in a mass-market living-room product.",
+          "GeForce2 Go marked NVIDIA's push into notebook graphics and power-constrained designs."
+        ]
+      },
+      {
+        year: 2001, date: "February 2001", name: "GeForce3", codename: "NV20", category: "programmable", type: "gpu",
+        architecture: "Kelvin", process: "150 nm", transistors: "≈57M", transistorsM: 57, coreClock: "200 MHz", memory: "64 MB DDR", bus: "128-bit", bandwidth: "≈7.36 GB/s", layout: "4 pixel + programmable VS/PS", api: "DirectX 8.1 / Shader Model 1.x",
+        significance: "GeForce3 was NVIDIA's first consumer generation with programmable vertex and pixel shaders — a fundamental break from mostly fixed-function effects.",
+        details: [
+          "The nFiniteFX engine let developers write shader programs for geometry and pixel-level material effects.",
+          "The design used four pixel pipelines, eight texture units and a programmable vertex engine rather than a unified core.",
+          "It also introduced memory-efficiency technologies that NVIDIA marketed under the Lightspeed Memory Architecture name.",
+          "Programmability, more than raw clock speed, was the generation's defining change."
+        ]
+      },
+      {
+        year: 2002, date: "February 2002", name: "GeForce4 Ti 4600", codename: "NV25", category: "programmable", type: "gpu",
+        architecture: "Kelvin refresh", process: "150 nm", transistors: "≈63M", transistorsM: 63, coreClock: "300 MHz", memory: "128 MB DDR", bus: "128-bit", bandwidth: "≈10.4 GB/s", layout: "4×2 pixel/TMU + 2 vertex", api: "DirectX 8.1",
+        significance: "The GeForce4 Ti series refined GeForce3 with higher clocks, a second vertex shader unit, improved memory efficiency and stronger anti-aliasing performance.",
+        details: [
+          "The flagship Ti 4600 reference design ran at about 300 MHz core and 650 MHz effective DDR memory.",
+          "Despite the GeForce4 name, the Ti family remained a DirectX 8-class architecture rather than a DirectX 9 GPU.",
+          "The separate GeForce4 MX family was architecturally closer to GeForce2 and lacked the Ti line's programmable pixel-shader capabilities, which made the branding confusing.",
+          "ATI's Radeon 9700 Pro later in 2002 shifted the competitive balance by bringing a strong DirectX 9 architecture."
+        ]
+      },
+      {
+        year: 2003, date: "January 2003", name: "GeForce FX 5800 Ultra", codename: "NV30", category: "programmable", type: "gpu",
+        architecture: "CineFX", process: "130 nm", transistors: "≈125M", transistorsM: 125, coreClock: "500 MHz", memory: "128 MB DDR2", bus: "128-bit", bandwidth: "≈16 GB/s", layout: "DX9 programmable pipeline", api: "DirectX 9 / SM 2.0",
+        significance: "NV30 was NVIDIA's first DirectX 9-class architecture, but its high clocks, narrow memory bus and shader behavior made the flagship controversial.",
+        details: [
+          "The 5800 Ultra used a 500 MHz core and 1 GHz-effective DDR2 memory on a 128-bit interface.",
+          "Its large dual-slot FlowFX cooler became infamous for noise and became a symbol of the chip's thermal demands.",
+          "Shader Model 2.0 support was a major feature, but real DirectX 9 performance often lagged the competing Radeon 9700/9800 family.",
+          "Later GeForce FX revisions widened memory interfaces and improved practicality, but the generation is remembered as a difficult architectural transition."
+        ]
+      },
+      {
+        year: 2004, date: "April 2004", name: "GeForce 6800 Ultra", codename: "NV40", category: "programmable", type: "gpu",
+        architecture: "Curie", process: "130 nm", transistors: "≈222M", transistorsM: 222, coreClock: "400 MHz", memory: "256 MB GDDR3", bus: "256-bit", bandwidth: "≈35.2 GB/s", layout: "16 pixel + 6 vertex", api: "DirectX 9.0c / SM 3.0",
+        significance: "NV40 was a major recovery: far more shader resources, a 256-bit GDDR3 interface and early Shader Model 3.0 support substantially improved NVIDIA's competitive position.",
+        details: [
+          "The 6800 Ultra exposed 16 pixel pipelines and six vertex shader units.",
+          "Shader Model 3.0 brought longer and more flexible shader programs, dynamic flow control capabilities and a path to increasingly sophisticated effects.",
+          "GDDR3 and a 256-bit interface roughly doubled the bandwidth class compared with the 5800 Ultra.",
+          "The GeForce 6 era also became the foundation for NVIDIA's modern SLI multi-GPU push."
+        ]
+      },
+      {
+        year: 2004, date: "2004", name: "SLI returns", codename: "Scalable Link Interface", category: "milestone programmable", type: "milestone",
+        architecture: "Multi-GPU platform", process: "—", transistors: null, transistorsM: null, coreClock: "—", memory: "Per-GPU", bus: "PCI Express", bandwidth: "—", layout: "2+ GPUs", api: "Driver-managed rendering",
+        significance: "NVIDIA revived the SLI name for PCI Express multi-GPU rendering, pairing compatible GeForce cards to split rendering work.",
+        details: [
+          "The modern NVIDIA meaning was 'Scalable Link Interface,' distinct from 3dfx's earlier Scan-Line Interleave implementation.",
+          "Early modes included alternate-frame and split-frame rendering strategies.",
+          "SLI became a defining enthusiast feature of the mid-2000s, although scaling, profiles, power and memory duplication imposed trade-offs."
+        ]
+      },
+      {
+        year: 2005, date: "June 2005", name: "GeForce 7800 GTX", codename: "G70", category: "programmable", type: "gpu",
+        architecture: "Curie", process: "110 nm", transistors: "≈302M", transistorsM: 302, coreClock: "430 MHz", memory: "256 MB GDDR3", bus: "256-bit", bandwidth: "≈38.4 GB/s", layout: "24 pixel + 8 vertex", api: "DirectX 9.0c / SM 3.0",
+        significance: "G70 scaled the GeForce 6 approach to 24 pixel pipelines and eight vertex units while improving shader efficiency and image-quality features.",
+        details: [
+          "The 7800 GTX arrived in the era when 1600×1200 and higher-resolution LCD gaming was becoming a serious enthusiast target.",
+          "CineFX 4.0-era features emphasized improved shader performance, HDR rendering and better filtering/anti-aliasing behavior.",
+          "A later 7800 GTX 512 used substantially higher clocks and 512 MB of memory, showing how board design and memory technology were becoming crucial differentiators.",
+          "This generation also powered the RSX graphics processor lineage used in Sony's PlayStation 3."
+        ]
+      },
+      {
+        year: 2006, date: "March 2006", name: "GeForce 7900 GTX", codename: "G71", category: "programmable", type: "gpu",
+        architecture: "Curie refinement", process: "90 nm", transistors: "≈278M", transistorsM: 278, coreClock: "650 MHz", memory: "512 MB GDDR3", bus: "256-bit", bandwidth: "≈51.2 GB/s", layout: "24 pixel + 8 vertex", api: "DirectX 9.0c / SM 3.0",
+        significance: "G71 demonstrated process and layout efficiency: higher clocks and lower transistor count than G70 while retaining the established GeForce 7 rendering structure.",
+        details: [
+          "The 90 nm shrink enabled high clock speeds without simply enlarging the architecture.",
+          "NVIDIA highlighted the fact that the 7900 GTX could improve performance with fewer transistors than G70.",
+          "This was the last major pre-unified high-end GeForce before G80 changed the programming model later in 2006."
+        ]
+      },
+      {
+        year: 2006, date: "November 2006", name: "GeForce 8800 GTX", codename: "G80", category: "unified programmable", type: "gpu",
+        architecture: "Tesla / unified shader", process: "90 nm", transistors: "≈681M", transistorsM: 681, coreClock: "575 / 1350 MHz", memory: "768 MB GDDR3", bus: "384-bit", bandwidth: "≈86.4 GB/s", layout: "128 unified stream processors", api: "DirectX 10 / CUDA CC 1.0",
+        significance: "G80 was one of NVIDIA's biggest architectural breaks: a fully unified shader design, DirectX 10 support and the hardware foundation for CUDA GPU computing.",
+        details: [
+          "Instead of separate fixed pools of vertex and pixel shader units, 128 stream processors could be dynamically assigned across shader workloads.",
+          "The GTX used a 384-bit memory interface with 768 MB of GDDR3 and delivered unusually strong longevity for a flagship card.",
+          "NVIDIA's technical brief described the 8800 GTX as its first fully unified DirectX 10-compatible GPU architecture.",
+          "The same programmable parallel design made general-purpose GPU computing much more practical than on earlier graphics-oriented shader hardware."
+        ]
+      },
+      {
+        year: 2006, date: "November 2006", name: "CUDA is introduced", codename: "Compute Unified Device Architecture", category: "unified milestone", type: "milestone",
+        architecture: "Parallel programming model", process: "—", transistors: null, transistorsM: null, coreClock: "—", memory: "GPU memory", bus: "—", bandwidth: "—", layout: "Blocks / threads / SMs", api: "CUDA",
+        significance: "CUDA exposed NVIDIA GPUs as programmable parallel processors for general computing, initially through a C-based software environment.",
+        details: [
+          "CUDA abstracted GPU work into grids of thread blocks and threads, with synchronization and shared-memory concepts that mapped to the hardware.",
+          "This gave scientists and developers a path to use GPU throughput without expressing every problem as a graphics workload.",
+          "G80-family GPUs were the first CUDA-capable consumer hardware; the 8800 GTX is commonly cited as the first CUDA-capable card.",
+          "CUDA would become one of NVIDIA's most strategically important technologies, well beyond gaming."
+        ]
+      },
+      {
+        year: 2007, date: "2007", name: "Tesla computing products", codename: "Tesla C870 / D870 era", category: "unified milestone", type: "milestone",
+        architecture: "G80-based compute", process: "90 nm", transistors: null, transistorsM: null, coreClock: "G80-derived", memory: "Dedicated GDDR3", bus: "—", bandwidth: "—", layout: "CUDA-focused accelerator", api: "CUDA",
+        significance: "NVIDIA separated GPU computing into a dedicated Tesla product platform aimed at scientific, engineering and high-performance workloads.",
+        details: [
+          "Tesla products removed or de-emphasized display functionality and emphasized compute throughput and larger memory configurations.",
+          "The platform helped define the accelerator model: CPU host code paired with a massively parallel GPU device.",
+          "This was an early step toward NVIDIA becoming a broader accelerated-computing company rather than only a graphics supplier."
+        ]
+      },
+      {
+        year: 2007, date: "October 2007", name: "GeForce 8800 GT", codename: "G92", category: "unified", type: "gpu",
+        architecture: "Tesla refinement", process: "65 nm", transistors: "≈754M", transistorsM: 754, coreClock: "600 / 1500 MHz", memory: "512 MB GDDR3", bus: "256-bit", bandwidth: "≈57.6 GB/s", layout: "112 stream processors", api: "DirectX 10 / CUDA CC 1.1",
+        significance: "G92 moved the unified design to 65 nm and delivered a famous price/performance balance in the 8800 GT.",
+        details: [
+          "The smaller process allowed a compact single-slot design in many reference-style boards.",
+          "The 8800 GT used 112 stream processors, 16 ROPs and a 256-bit memory interface in its common 512 MB form.",
+          "PCI Express 2.0 support and improved video-processing features modernized the platform.",
+          "G92 became extremely long-lived, reappearing in several later GeForce 9 and GTS-branded products."
+        ]
+      },
+      {
+        year: 2008, date: "June 2008", name: "GeForce GTX 280", codename: "GT200", category: "unified", type: "gpu",
+        architecture: "Tesla 2nd generation", process: "65 nm", transistors: "1.4B", transistorsM: 1400, coreClock: "602 / 1296 MHz", memory: "1 GB GDDR3", bus: "512-bit", bandwidth: "≈141.7 GB/s", layout: "240 SP / 80 TMU / 32 ROP", api: "DirectX 10 / CUDA CC 1.3",
+        significance: "GT200 nearly doubled G80's stream-processor count and added stronger compute-oriented capabilities, including double-precision support in compute capability 1.3 hardware.",
+        details: [
+          "The full GTX 280 exposed 240 stream processors arranged across 30 streaming multiprocessors.",
+          "A 512-bit memory interface and 1 GB of GDDR3 pushed bandwidth above 140 GB/s.",
+          "At roughly 1.4 billion transistors, GT200 was extraordinarily large for its 65 nm process.",
+          "The architecture was an evolutionary extension of G80's unified model, but with much more emphasis on general compute throughput."
+        ]
+      },
+      {
+        year: 2008, date: "2008", name: "PhysX joins NVIDIA", codename: "AGEIA acquisition", category: "milestone unified", type: "milestone",
+        architecture: "GPU-accelerated physics", process: "—", transistors: null, transistorsM: null, coreClock: "—", memory: "—", bus: "—", bandwidth: "—", layout: "CUDA-capable GeForce", api: "PhysX / CUDA",
+        significance: "NVIDIA acquired AGEIA and moved PhysX physics acceleration onto CUDA-capable GeForce GPUs, expanding the idea of a GPU doing non-graphics work inside games.",
+        details: [
+          "PhysX had begun as a dedicated physics-processing hardware/software platform.",
+          "Under NVIDIA, compatible GeForce GPUs could run PhysX workloads alongside graphics through CUDA-era programmable hardware.",
+          "The move reinforced NVIDIA's strategy of using GPU parallelism for more than rasterization and shading."
+        ]
+      },
+      {
+        year: 2009, date: "January 2009", name: "GeForce GTX 295", codename: "2× GT200b", category: "unified", type: "gpu",
+        architecture: "Dual-GPU Tesla", process: "55 nm ×2", transistors: "2×1.4B", transistorsM: 2800, coreClock: "576 / 1242 MHz", memory: "1792 MB total*", bus: "448-bit per GPU", bandwidth: "≈224 GB/s aggregate", layout: "480 SP total", api: "DirectX 10 / CUDA CC 1.3",
+        significance: "The GTX 295 combined two 55 nm GT200-class GPUs on one graphics card to reclaim absolute performance leadership through internal SLI.",
+        details: [
+          "It contained 240 stream processors per GPU for 480 total and used 896 MB of memory per GPU.",
+          "*The advertised 1792 MB is not a single shared pool: multi-GPU rendering duplicates resources, so each GPU directly accesses its own 896 MB partition.",
+          "The 448-bit-per-GPU interfaces delivered roughly 224 GB/s of aggregate theoretical memory bandwidth.",
+          "This card shows the strengths and weaknesses of the period's multi-GPU strategy: huge peak performance, but scaling and frame pacing depended on software profiles."
+        ]
+      },
+      {
+        year: 2009, date: "January 2009", name: "GeForce GTX 285", codename: "GT200b", category: "unified", type: "gpu",
+        architecture: "Tesla 55 nm", process: "55 nm", transistors: "1.4B", transistorsM: 1400, coreClock: "648 / 1476 MHz", memory: "1 GB GDDR3", bus: "512-bit", bandwidth: "≈159 GB/s", layout: "240 SP / 80 TMU / 32 ROP", api: "DirectX 10 / CUDA CC 1.3",
+        significance: "The GTX 285 moved full GT200 to 55 nm, raising clocks while reducing power compared with the original 65 nm GTX 280.",
+        details: [
+          "The core rose to about 648 MHz with a 1476 MHz shader clock in the reference specification.",
+          "Memory bandwidth climbed to roughly 159 GB/s over the same wide 512-bit GDDR3 interface.",
+          "It represented the mature peak of the pre-Fermi Tesla graphics architecture in a single-GPU consumer card."
+        ]
+      },
+      {
+        year: 2010, date: "March 2010", name: "GeForce GTX 480", codename: "GF100", category: "unified", type: "gpu",
+        architecture: "Fermi", process: "40 nm", transistors: "≈3.0B", transistorsM: 3000, coreClock: "700 / 1401 MHz", memory: "1.5 GB GDDR5", bus: "384-bit", bandwidth: "≈177.4 GB/s", layout: "480 CUDA / 60 TMU / 48 ROP", api: "DirectX 11 / CUDA CC 2.0",
+        significance: "Fermi redesigned the NVIDIA GPU around graphics and general-purpose computing together, adding a real cache hierarchy, stronger scheduling and major compute features.",
+        details: [
+          "GF100 physically contained 512 CUDA cores, but the shipping GTX 480 enabled 480 across 15 streaming multiprocessors.",
+          "Fermi introduced a more conventional L1/L2 cache hierarchy, improved atomic operations, concurrent-kernel features and stronger double-precision support in the architecture.",
+          "The consumer GTX 480 delivered high performance but also became known for high power draw, heat and acoustics.",
+          "DirectX 11 tessellation performance was a major graphics selling point, while CUDA compute capability 2.0 substantially expanded programmability."
+        ]
+      },
+      {
+        year: 2010, date: "July 2010", name: "GeForce GTX 460", codename: "GF104", category: "unified", type: "gpu",
+        architecture: "Fermi derivative", process: "40 nm", transistors: "≈1.95B", transistorsM: 1950, coreClock: "675 / 1350 MHz", memory: "768 MB / 1 GB GDDR5", bus: "192 / 256-bit", bandwidth: "≈86–115 GB/s", layout: "336 CUDA cores", api: "DirectX 11 / CUDA CC 2.1",
+        significance: "GF104 reshaped Fermi for the performance-mainstream segment and became one of the generation's best-regarded price/performance cards.",
+        details: [
+          "The common GTX 460 configuration used 336 CUDA cores and shipped in 768 MB 192-bit and 1 GB 256-bit versions.",
+          "GF104 changed the balance of CUDA cores, texture resources and scheduling compared with GF100, making it especially effective in graphics workloads.",
+          "Lower power and strong overclocking headroom helped rehabilitate perceptions of Fermi after the hot-running GTX 480 launch."
+        ]
+      },
+      {
+        year: 2010, date: "November 2010", name: "GeForce GTX 580", codename: "GF110", category: "unified", type: "gpu",
+        architecture: "Fermi 2.0 refinement", process: "40 nm", transistors: "≈3.0B", transistorsM: 3000, coreClock: "772 / 1544 MHz", memory: "1.5 GB GDDR5", bus: "384-bit", bandwidth: "≈192.4 GB/s", layout: "512 CUDA / 64 TMU / 48 ROP", api: "DirectX 11 / CUDA CC 2.0",
+        significance: "GF110 delivered the full 512-core Fermi configuration in a faster, quieter and more refined flagship, closing 2010 with a much more polished version of the architecture.",
+        details: [
+          "All 16 SMs were enabled for 512 CUDA cores, compared with 15 SMs / 480 cores on the GTX 480.",
+          "Reference clocks rose to 772 MHz core and 1544 MHz shader, paired with 1.5 GB of GDDR5 on a 384-bit interface.",
+          "Memory bandwidth reached roughly 192.4 GB/s and board power was rated around 244 W.",
+          "The GTX 580 is a useful endpoint for this first era: by 2010, NVIDIA's flagship was as much a programmable parallel computer as a traditional graphics accelerator."
+        ]
+      }
+    ];
+
+    const sources = [
+      { title: "NVIDIA Corporate Timeline", note: "Founding date and major company-level milestones such as the GPU and CUDA.", url: "https://www.nvidia.com/en-us/about-nvidia/corporate-timeline/" },
+      { title: "NVIDIA GeForce 8800 Architecture Technical Brief", note: "G80 unified-shader structure, 128 stream processors and DirectX 10 context.", url: "https://www.nvidia.com/content/PDF/Geforce_8800/GeForce_8800_GPU_Architecture_Technical_Brief.pdf" },
+      { title: "NVIDIA GeForce GTX 200 GPU Technical Brief", note: "GT200 retrospective, unified architecture, CUDA and GeForce 8/9 historical context.", url: "https://www.nvidia.com/docs/IO/55506/GeForce_GTX_200_GPU_Technical_Brief.pdf" },
+      { title: "NVIDIA Fermi Compute Architecture Whitepaper", note: "Fermi's cache hierarchy, scheduling, ECC/compute goals and architectural philosophy.", url: "https://www.nvidia.com/content/pdf/fermi_white_papers/nvidia_fermi_compute_architecture_whitepaper.pdf" },
+      { title: "NVIDIA CUDA Programming Guide / CUDA history", note: "CUDA's 2006 introduction and general-purpose parallel-computing programming model.", url: "https://docs.nvidia.com/cuda/cuda-programming-guide/01-introduction/introduction.html" },
+      { title: "AnandTech and contemporary GPU reviews", note: "Launch-era technical context and reference specifications for GeForce3, GeForce4 and GT200-era boards.", url: "https://www.anandtech.com/show/2549" },
+      { title: "Tom's Hardware NVIDIA GPU history", note: "Cross-checking RIVA/TNT/GeForce generation details and historical product context.", url: "https://www.tomshardware.com/picturestory/715-history-of-nvidia-gpus.html" },
+      { title: "TechPowerUp GPU database", note: "Cross-checking reference clocks, memory configurations and later historical GPU specifications.", url: "https://www.techpowerup.com/gpu-specs/" }
+    ];
+
+    const specRows = historyData.filter(x => x.type === "gpu" && x.year >= 1997);
+    const timelineRoot = document.getElementById("timelineRoot");
+    const search = document.getElementById("search");
+    const chips = [...document.querySelectorAll(".chip")];
+    const resultCount = document.getElementById("resultCount");
+    const noResults = document.getElementById("noResults");
+    const dialog = document.getElementById("detailDialog");
+    const dialogTitle = document.getElementById("dialogTitle");
+    const dialogBody = document.getElementById("dialogBody");
+    let activeFilter = "all";
+
+    function specBox(label, value) {
+      if (!value || value === "—") return "";
+      return `<div class="mini-spec"><small>${label}</small><b title="${escapeHtml(value)}">${value}</b></div>`;
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    }
+
+    function renderTimeline() {
+      const q = search.value.trim().toLowerCase();
+      const visible = historyData.filter(item => {
+        const matchesFilter = activeFilter === "all" || item.category.split(" ").includes(activeFilter) || item.type === activeFilter;
+        const haystack = [item.name,item.codename,item.architecture,item.significance,...item.details].join(" ").toLowerCase();
+        return matchesFilter && (!q || haystack.includes(q));
+      });
+
+      timelineRoot.innerHTML = visible.map((item) => `
+        <article class="timeline-card" data-year="${item.year}">
+          <div class="card-top">
+            <div><div class="year">${item.year}</div><div class="codename">${escapeHtml(item.date)} · ${escapeHtml(item.codename)}</div></div>
+            <span class="tag">${item.type === "gpu" ? "GPU" : "MILESTONE"}</span>
+          </div>
+          <h3>${escapeHtml(item.name)}</h3>
+          <p class="significance">${escapeHtml(item.significance)}</p>
+          <div class="spec-strip">
+            ${specBox("Architecture", escapeHtml(item.architecture))}
+            ${specBox("Process", escapeHtml(item.process))}
+            ${specBox("Transistors", escapeHtml(item.transistors || "—"))}
+            ${specBox("Clock", escapeHtml(item.coreClock))}
+            ${specBox("Memory", escapeHtml(item.memory))}
+            ${specBox("API / compute", escapeHtml(item.api))}
+          </div>
+          <ul class="detail-list">${item.details.slice(0, 2).map(d => `<li>${escapeHtml(d)}</li>`).join("")}</ul>
+          <div class="card-actions"><button class="tiny-btn" data-open="${historyData.indexOf(item)}">Technical breakdown</button></div>
+        </article>`).join("");
+
+      resultCount.textContent = `${visible.length} of ${historyData.length} entries`;
+      noResults.classList.toggle("show", visible.length === 0);
+
+      timelineRoot.querySelectorAll("[data-open]").forEach(btn => {
+        btn.addEventListener("click", () => openDetail(historyData[Number(btn.dataset.open)]));
+      });
+    }
+
+    function openDetail(item) {
+      dialogTitle.textContent = `${item.year} — ${item.name}`;
+      dialogBody.innerHTML = `
+        <p class="significance">${escapeHtml(item.significance)}</p>
+        <div class="dialog-grid">
+          ${[
+            ["Codename", item.codename], ["Architecture", item.architecture], ["Process", item.process], ["Transistors", item.transistors || "—"],
+            ["Core / shader", item.coreClock], ["Memory", item.memory], ["Memory bus", item.bus], ["Bandwidth", item.bandwidth],
+            ["Core layout", item.layout], ["API / compute", item.api]
+          ].map(([k,v]) => `<div class="dialog-spec"><small>${escapeHtml(k)}</small><b>${escapeHtml(v)}</b></div>`).join("")}
+        </div>
+        <h4>Why it mattered</h4>
+        <ul>${item.details.map(d => `<li>${escapeHtml(d)}</li>`).join("")}</ul>`;
+      dialog.showModal();
+    }
+
+    dialog.querySelector(".dialog-close").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", e => {
+      const rect = dialog.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) dialog.close();
+    });
+
+    chips.forEach(chip => chip.addEventListener("click", () => {
+      chips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      activeFilter = chip.dataset.filter;
+      renderTimeline();
+    }));
+    search.addEventListener("input", renderTimeline);
+
+    function renderTable() {
+      document.getElementById("specTableBody").innerHTML = specRows.map(x => `
+        <tr>
+          <td>${x.year}</td><td><b>${escapeHtml(x.name)}</b></td><td>${escapeHtml(x.codename)}</td><td>${escapeHtml(x.process)}</td>
+          <td>${escapeHtml(x.transistors || "—")}</td><td>${escapeHtml(x.coreClock)}</td><td>${escapeHtml(x.memory)}</td><td>${escapeHtml(x.bus)}</td>
+          <td>${escapeHtml(x.bandwidth)}</td><td>${escapeHtml(x.layout)}</td><td>${escapeHtml(x.api)}</td>
+        </tr>`).join("");
+    }
+
+    function renderSources() {
+      document.getElementById("sourceGrid").innerHTML = sources.map(s => `
+        <article class="source-card"><b>${escapeHtml(s.title)}</b><p>${escapeHtml(s.note)}</p><a href="${s.url}" target="_blank" rel="noreferrer">Open source ↗</a></article>`).join("");
+    }
+
+    function renderGrowthChart() {
+      const svg = document.getElementById("growthChart");
+      const data = historyData.filter(x => x.type === "gpu" && x.transistorsM && x.year >= 1997)
+        .filter((x, i, arr) => i === arr.findIndex(y => y.year === x.year && y.name === x.name));
+      const W = 1200, H = 420, left = 80, right = 30, top = 35, bottom = 65;
+      const plotW = W-left-right, plotH = H-top-bottom;
+      const minYear = Math.min(...data.map(d=>d.year)), maxYear = Math.max(...data.map(d=>d.year));
+      const minLog = Math.log10(3), maxLog = Math.log10(3200);
+      const x = y => left + (y-minYear)/(maxYear-minYear)*plotW;
+      const y = v => top + (1-(Math.log10(v)-minLog)/(maxLog-minLog))*plotH;
+
+      const yTicks = [3,10,30,100,300,1000,3000];
+      const yearTicks = [1997,1999,2001,2003,2005,2007,2009,2010];
+      let out = `<title id="chartTitle">NVIDIA GPU transistor growth, 1997 to 2010</title><desc id="chartDesc">A logarithmic line chart rising from about 3.5 million transistors on RIVA 128 to about 3 billion on Fermi-era GPUs.</desc>`;
+      out += `<rect x="0" y="0" width="1200" height="420" rx="18" fill="#0b100d"/>`;
+      yTicks.forEach(t => {
+        const yy = y(t); const label = t >= 1000 ? `${t/1000}B` : `${t}M`;
+        out += `<line x1="${left}" y1="${yy}" x2="${W-right}" y2="${yy}" stroke="#223025" stroke-width="1"/>`;
+        out += `<text x="${left-15}" y="${yy+4}" text-anchor="end" fill="#7f8a7b" font-size="14" font-family="system-ui">${label}</text>`;
+      });
+      yearTicks.forEach(t => {
+        const xx = x(t);
+        out += `<line x1="${xx}" y1="${top}" x2="${xx}" y2="${H-bottom}" stroke="#172018" stroke-width="1"/>`;
+        out += `<text x="${xx}" y="${H-bottom+28}" text-anchor="middle" fill="#7f8a7b" font-size="13" font-family="system-ui">${t}</text>`;
+      });
+      const points = data.map(d => `${x(d.year)},${y(d.transistorsM)}`).join(" ");
+      out += `<polyline points="${points}" fill="none" stroke="#76b900" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>`;
+      data.forEach((d, idx) => {
+        const xx=x(d.year), yy=y(d.transistorsM);
+        out += `<circle cx="${xx}" cy="${yy}" r="6" fill="#a6e22e" stroke="#0b100d" stroke-width="3"><title>${escapeHtml(d.name)}: ${escapeHtml(d.transistors)}</title></circle>`;
+        const showLabel = ["RIVA 128","GeForce 256","GeForce3","GeForce FX 5800 Ultra","GeForce 6800 Ultra","GeForce 8800 GTX","GeForce GTX 280","GeForce GTX 480","GeForce GTX 580"].includes(d.name);
+        if (showLabel) {
+          const anchor = xx > W-180 ? "end" : "start";
+          const tx = xx > W-180 ? xx-10 : xx+10;
+          const ty = yy < 65 ? yy+23 : yy-10;
+          out += `<text x="${tx}" y="${ty}" text-anchor="${anchor}" fill="#dce6d8" font-size="12" font-weight="700" font-family="system-ui">${escapeHtml(d.name)}</text>`;
+        }
+      });
+      svg.innerHTML = out;
+    }
+
+    function updateScrollProgress() {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max ? (h.scrollTop / max) * 100 : 0;
+      document.querySelector(".scroll-progress").style.setProperty("--scroll", `${pct}%`);
+    }
+
+    renderTimeline();
+    renderTable();
+    renderSources();
+    renderGrowthChart();
+    addEventListener("scroll", updateScrollProgress, { passive: true });
+    updateScrollProgress();
+  </script>
+</body>
+</html>
